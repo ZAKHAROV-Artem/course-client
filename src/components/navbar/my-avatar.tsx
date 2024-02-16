@@ -1,6 +1,10 @@
+"use client";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Switch } from "../ui/switch";
+import { useTheme } from "next-themes";
 export default function MyAvatar() {
+  const { setTheme, theme } = useTheme();
   return (
     <Popover>
       <PopoverTrigger>
@@ -15,8 +19,14 @@ export default function MyAvatar() {
         </div>
       </PopoverTrigger>
       <PopoverContent>
-        <div className="flex cursor-pointer items-center gap-x-3 rounded-xl p-2 duration-200 hover:bg-gray-50 dark:hover:bg-gray-800">
+        <div className="flex cursor-pointer items-center justify-between gap-x-3 rounded-xl p-2 duration-200 hover:bg-gray-50 dark:hover:bg-gray-800">
           Switch theme
+          <Switch
+            defaultChecked={theme === "dark"}
+            onCheckedChange={(value) => {
+              setTheme(value ? "dark" : "light");
+            }}
+          />
         </div>
         <div className="flex cursor-pointer items-center gap-x-3 rounded-xl p-2 duration-200 hover:bg-gray-50 dark:hover:bg-gray-800">
           Sign-out
