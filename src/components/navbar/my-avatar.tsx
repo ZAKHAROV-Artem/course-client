@@ -3,6 +3,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "../ui/switch";
 import { useTheme } from "next-themes";
+import { LuMoreVertical } from "react-icons/lu";
 export default function MyAvatar() {
   const { setTheme, theme } = useTheme();
   return (
@@ -16,6 +17,7 @@ export default function MyAvatar() {
             </Avatar>
             <div className="hidden font-medium md:block">Adam Joseph</div>
           </div>
+          <LuMoreVertical className="mr-3 hidden h-6 w-6 md:block" />
         </div>
       </PopoverTrigger>
       <PopoverContent>
