@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Time from "./time";
+import MyAvatar from "./my-avatar";
 
 export default function Navbar() {
   return (
@@ -11,8 +12,9 @@ export default function Navbar() {
         height={65}
         quality={100}
       />
-      <div>
+      <div className="flex items-center gap-x-5">
         <Time />
+        <MyAvatar />
       </div>
     </div>
   );
