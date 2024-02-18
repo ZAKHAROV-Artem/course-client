@@ -2,23 +2,44 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { JoinMeetingFields, JoinMeetingValidationSchema } from "@/types/forms";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
 
 export default function JoinMeetingWidget() {
-  const [code, setCode] = useState<string>("");
+  const { register, handleSubmit, watch } = useForm<JoinMeetingFields>({
+    mode: "onBlur",
+    defaultValues: {
+      code: "",
+    },
+    resolver: zodResolver(JoinMeetingValidationSchema),
+  });
+  const watchCode = watch("code");
+
+  const onSubmit: SubmitHandler<JoinMeetingFields> = async (data) => {
+    console.log(data.code);
+  };
+  const onError: SubmitErrorHandler<JoinMeetingFields> = async (data) => {
+    toast.error(data.code?.message || "");
+  };
   return (
     <>
-      <div className="grid gap-3 sm:grid-cols-[3fr,1fr]">
+      <form
+        onSubmit={handleSubmit(onSubmit, onError)}
+        className="grid gap-3 sm:grid-cols-[3fr,1fr]"
+      >
         <Input
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
+          {...register("code")}
           className="h-14 sm:rounded-2xl"
           placeholder="Enter code"
           maxLength={18}
         />
-        <Button className="sm:rounded-2xl">Join</Button>
-      </div>
-      <div className="ml-2 mt-1">{code.length}/18</div>
+        <Button type="submit" className="sm:rounded-2xl">
+          Join
+        </Button>
+      </form>
+      <div className="ml-2 mt-1">{watchCode.length}/18</div>
     </>
   );
 }
