@@ -10,7 +10,10 @@ import { Separator } from "@/components/ui/separator";
 import { GithubButton, GoogleButton } from "../buttons";
 import { useSearchParams } from "next/navigation";
 import { Route } from "@/../routes";
-
+import { useSignIn } from "@/hooks/mutations/use-sign-in";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { MdOutlineErrorOutline } from "react-icons/md";
 export default function SignInForm() {
   const {
     register,
@@ -25,10 +28,31 @@ export default function SignInForm() {
     },
     resolver: zodResolver(SignInValidationSchema),
   });
+  const {
+    mutateAsync,
+    reset: resetMutation,
+    isIdle,
+    isPending,
+    isSuccess,
+  } = useSignIn();
+  const [error, setError] = useState<string>("");
   const searchParams = useSearchParams();
   const callbackURL = searchParams.get("callbackUrl") ?? Route.MAIN;
   const onSubmit: SubmitHandler<SignInFields> = async (data) => {
-    console.log(data);
+    await mutateAsync(
+      { data, callbackURL },
+      {
+        onSuccess: (res) => {
+          if (res?.error) {
+            reset();
+            resetMutation();
+            setError(res.error);
+          } else {
+            toast.success("Success !");
+          }
+        },
+      },
+    );
   };
   return (
     <div className="flex w-full grow items-center justify-center">
@@ -45,15 +69,31 @@ export default function SignInForm() {
             </span>
           </div>
           <div>
-            <Input {...register("password")} placeholder="Email" />
+            <Input
+              {...register("password")}
+              type="password"
+              placeholder="Email"
+            />
             <span className="ml-5 text-xs text-red-500">
               {errors.password?.message}
             </span>
           </div>
         </div>
-        <Button type="submit" className="w-full">
-          Sign in
+        <Button
+          disabled={isPending || isSuccess}
+          type="submit"
+          className="w-full"
+        >
+          {isIdle && "Sign in"}
+          {isPending && "Signing you in"}
+          {isSuccess && "Signed in successfully"}
         </Button>
+        {error && (
+          <div className="mt-5 flex w-full items-center justify-center gap-x-4 rounded-lg bg-red-500 px-3 py-2 text-center text-white">
+            <MdOutlineErrorOutline className="h-6 w-6" />
+            {error}
+          </div>
+        )}
         <Separator className="my-5" />
         <div className="space-y-2">
           <GoogleButton callbackUrl={callbackURL} />
