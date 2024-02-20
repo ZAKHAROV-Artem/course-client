@@ -8,6 +8,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { GoogleButton, GithubButton } from "../buttons";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Route } from "@/../routes";
 
 export default function SignUpForm() {
   const {
@@ -25,6 +27,8 @@ export default function SignUpForm() {
     resolver: zodResolver(SignUpValidationSchema),
   });
 
+  const searchParams = useSearchParams();
+  const callbackURL = searchParams.get("callbackUrl") ?? Route.MAIN;
   const onSubmit: SubmitHandler<SignUpFields> = async (data) => {
     console.log(data);
   };
@@ -64,12 +68,12 @@ export default function SignUpForm() {
         </Button>
         <Separator className="my-5" />
         <div className="space-y-2">
-          <GoogleButton />
-          <GithubButton />
+          <GoogleButton callbackUrl={callbackURL} />
+          <GithubButton callbackUrl={callbackURL} />
         </div>
         <div className="mt-3 text-sm text-secondary">
           {"Have an account already ? "}
-          <Link href="/auth/sign-in" className="cursor-pointer text-blue-500">
+          <Link href={Route.SIGN_IN} className="cursor-pointer text-blue-500">
             Sign in
           </Link>
         </div>

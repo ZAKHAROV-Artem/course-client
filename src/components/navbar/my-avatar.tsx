@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "../ui/switch";
 import { useTheme } from "next-themes";
 import { LuMoreVertical } from "react-icons/lu";
+import { signOut } from "next-auth/react";
 export default function MyAvatar() {
   const { setTheme, theme } = useTheme();
   return (
@@ -30,7 +31,10 @@ export default function MyAvatar() {
             }}
           />
         </div>
-        <div className="flex cursor-pointer items-center gap-x-3 rounded-xl p-2 duration-200 hover:bg-gray-50 dark:hover:bg-gray-800">
+        <div
+          className="flex cursor-pointer items-center gap-x-3 rounded-xl p-2 duration-200 hover:bg-gray-50 dark:hover:bg-gray-800"
+          onClick={() => signOut()}
+        >
           Sign-out
         </div>
       </PopoverContent>
