@@ -5,5 +5,5 @@ export enum Route {
   ERROR = "/auth/error",
 }
 
-export const authRoutes = [Route.SIGN_IN, Route.SIGN_UP, Route.ERROR];
+export const authRoutes = ["/auth/sign-in", "/auth/sign-up", "/auth/error"];
 export const apiAuthPrefix = "/api/auth";
