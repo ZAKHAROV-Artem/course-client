@@ -9,6 +9,9 @@ import { initials } from "@/lib/utils";
 export default function MyAvatar() {
   const { setTheme, theme } = useTheme();
   const { data } = useSession();
+  if (!data) return null;
+
+  console.log(data.user);
   return (
     <Popover>
       <PopoverTrigger>
