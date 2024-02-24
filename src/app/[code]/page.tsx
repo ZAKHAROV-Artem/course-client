@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Route } from "../../../routes";
 import { Hearts } from "react-loader-spinner";
+import { useShallow } from "zustand/react/shallow";
 
 type Props = {
   params: { code: Code };
@@ -18,10 +19,12 @@ export default function MeetingPage({ params: { code } }: Props) {
   const [isLobby, setIsLobby] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const { meeting, setMeeting } = useMeeting((state) => ({
-    meeting: state.meeting,
-    setMeeting: state.setMeeting,
-  }));
+  const { meeting, setMeeting } = useMeeting(
+    useShallow((state) => ({
+      meeting: state.meeting,
+      setMeeting: state.setMeeting,
+    })),
+  );
   const router = useRouter();
   useEffect(() => {
     if (meeting) {
@@ -55,5 +58,7 @@ export default function MeetingPage({ params: { code } }: Props) {
     );
   }
 
-  return <>{isLobby ? <Lobby /> : <Meeting />}</>;
+  return (
+    <>{isLobby ? <Lobby join={() => setIsLobby(false)} /> : <Meeting />}</>
+  );
 }

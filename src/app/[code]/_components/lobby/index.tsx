@@ -8,7 +8,8 @@ import { useStream } from "@/hooks/state/use-stream";
 import { LuMic, LuMicOff, LuVideo, LuVideoOff } from "react-icons/lu";
 import { useMeeting } from "@/hooks/state/use-meeting";
 import { ColorRing } from "react-loader-spinner";
-export default function Lobby() {
+import { useShallow } from "zustand/react/shallow";
+export default function Lobby({ join }: { join: () => void }) {
   const {
     stream,
     status,
@@ -18,14 +19,18 @@ export default function Lobby() {
     toggleAudio,
     toggleVideo,
   } = useStream();
-  const { joinStatus, meeting } = useMeeting((state) => ({
-    joinStatus: state.joinStatus,
-    meeting: state.meeting,
-  }));
+  const { joinStatus, meeting } = useMeeting(
+    useShallow((state) => ({
+      joinStatus: state.joinStatus,
+      meeting: state.meeting,
+    })),
+  );
   useEffect(() => {
     if (!stream) getStream();
   }, [stream, getStream]);
-  const handleJoin = () => {};
+  const handleJoin = () => {
+    join();
+  };
   return (
     <div className="flex h-screen flex-col">
       <Navbar />
