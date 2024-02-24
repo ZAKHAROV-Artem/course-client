@@ -6,6 +6,8 @@ import { MyStream } from "../streams";
 import { useEffect } from "react";
 import { useStream } from "@/hooks/state/use-stream";
 import { LuMic, LuMicOff, LuVideo, LuVideoOff } from "react-icons/lu";
+import { useMeeting } from "@/hooks/state/use-meeting";
+import { ColorRing } from "react-loader-spinner";
 export default function Lobby() {
   const {
     stream,
@@ -16,6 +18,10 @@ export default function Lobby() {
     toggleAudio,
     toggleVideo,
   } = useStream();
+  const { joinStatus, meeting } = useMeeting((state) => ({
+    joinStatus: state.joinStatus,
+    meeting: state.meeting,
+  }));
   useEffect(() => {
     if (!stream) getStream();
   }, [stream, getStream]);
@@ -47,9 +53,66 @@ export default function Lobby() {
             )}
           </div>
           <div className="grid place-content-center place-items-center gap-2 text-center">
-            <Button onClick={handleJoin} size={"lg"}>
-              Join
-            </Button>
+            {joinStatus === "idle" && (
+              <>
+                {status === "loading" && <div>Waiting for your stream 😴</div>}
+                {status === "rejected" && (
+                  <div>
+                    You can not join without stream. Allow this site to use
+                    video and audio 🎥
+                  </div>
+                )}
+                {status === "success" && (
+                  <>
+                    <div className="mb-3">{meeting?.name}</div>
+                    <Button onClick={handleJoin} size={"lg"}>
+                      Join
+                    </Button>
+                  </>
+                )}
+              </>
+            )}
+            {joinStatus === "loading" && (
+              <>
+                <ColorRing
+                  visible={true}
+                  height="80"
+                  width="80"
+                  ariaLabel="color-ring-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="color-ring-wrapper"
+                  colors={[
+                    "#0060FF",
+                    "#87CEEB",
+                    "#FFFFFF",
+                    "#89CFF0",
+                    "#C0C0C0",
+                  ]}
+                />
+                <span>Wait untill meeting owner accept your request</span>
+              </>
+            )}
+            {joinStatus === "rejected" && (
+              <div>Meeting owner rejected your join request</div>
+            )}
+            {joinStatus === "wait-for-owner" && (
+              <>
+                <div>{meeting?.name}</div>
+                <div>Meeting owner in not here</div>
+                <Button onClick={handleJoin} size={"lg"}>
+                  Try again
+                </Button>
+              </>
+            )}
+            {joinStatus === "room-is-full" && (
+              <>
+                <div className="mb-3">{meeting?.name}</div>
+                <div>Meeting is full try again later</div>
+                <Button onClick={handleJoin} size={"lg"}>
+                  Try again
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -18,7 +18,10 @@ export default function MeetingPage({ params: { code } }: Props) {
   const [isLobby, setIsLobby] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const { meeting, setMeeting } = useMeeting();
+  const { meeting, setMeeting } = useMeeting((state) => ({
+    meeting: state.meeting,
+    setMeeting: state.setMeeting,
+  }));
   const router = useRouter();
   useEffect(() => {
     if (meeting) {
