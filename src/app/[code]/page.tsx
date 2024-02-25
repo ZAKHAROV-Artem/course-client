@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { Route } from "../../../routes";
 import { Hearts } from "react-loader-spinner";
 import { useShallow } from "zustand/react/shallow";
+import { MeetingProvider } from "./_components/providers";
 
 type Props = {
   params: { code: Code };
@@ -59,6 +60,8 @@ export default function MeetingPage({ params: { code } }: Props) {
   }
 
   return (
-    <>{isLobby ? <Lobby join={() => setIsLobby(false)} /> : <Meeting />}</>
+    <MeetingProvider joinMeeting={() => setIsLobby(false)}>
+      {isLobby ? <Lobby /> : <Meeting />}
+    </MeetingProvider>
   );
 }

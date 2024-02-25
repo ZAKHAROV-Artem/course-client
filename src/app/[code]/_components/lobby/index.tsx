@@ -9,7 +9,7 @@ import { LuMic, LuMicOff, LuVideo, LuVideoOff } from "react-icons/lu";
 import { useMeeting } from "@/hooks/state/use-meeting";
 import { ColorRing } from "react-loader-spinner";
 import { useShallow } from "zustand/react/shallow";
-export default function Lobby({ join }: { join: () => void }) {
+export default function Lobby() {
   const {
     stream,
     status,
@@ -29,7 +29,7 @@ export default function Lobby({ join }: { join: () => void }) {
     if (!stream) getStream();
   }, [stream, getStream]);
   const handleJoin = () => {
-    join();
+    // emit user:join-request
   };
   return (
     <div className="flex h-screen flex-col">
