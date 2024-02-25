@@ -9,6 +9,9 @@ import { LuMic, LuMicOff, LuVideo, LuVideoOff } from "react-icons/lu";
 import { useMeeting } from "@/hooks/state/use-meeting";
 import { ColorRing } from "react-loader-spinner";
 import { useShallow } from "zustand/react/shallow";
+import { useSocket } from "@/hooks/state/use-socket";
+import { usePeer } from "@/hooks/state/use-peer";
+import { useSession } from "next-auth/react";
 export default function Lobby() {
   const {
     stream,
@@ -19,17 +22,34 @@ export default function Lobby() {
     toggleAudio,
     toggleVideo,
   } = useStream();
-  const { joinStatus, meeting } = useMeeting(
+  const { joinStatus, meeting, setJoinStatus } = useMeeting(
     useShallow((state) => ({
       joinStatus: state.joinStatus,
       meeting: state.meeting,
+      setJoinStatus: state.setJoinStatus,
     })),
   );
+  const socket = useSocket();
+  const peerId = usePeer((state) => state.myPeerId);
+  const { data } = useSession();
   useEffect(() => {
     if (!stream) getStream();
   }, [stream, getStream]);
   const handleJoin = () => {
-    // emit user:join-request
+    setJoinStatus("loading");
+    socket.emit("user:join-request", {
+      code: meeting?.code as string,
+      user: {
+        peerId,
+        id: data?.user.id as string,
+        email: data?.user.email as string,
+        name: data?.user.name as string,
+        image: data?.user.image as string,
+        muted,
+        visible,
+      },
+      ownerId: meeting?.ownerId as string,
+    });
   };
   return (
     <div className="flex h-screen flex-col">

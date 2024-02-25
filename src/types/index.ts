@@ -4,7 +4,7 @@ export type Code = string;
 export type Nullable<T> = T | null;
 export type PeerId = string;
 export type KeyValue<T> = Record<string, T>;
-type PeerUser = {
+export type PeerUser = {
   id: string;
   name: string;
   email: string;
@@ -13,7 +13,7 @@ type PeerUser = {
   muted: boolean;
   visible: boolean;
 };
-type PeerUserWithSocketId = { socketId: string } & PeerUser;
+export type PeerUserWithSocketId = { socketId: string } & PeerUser;
 
 export type MediaKind = "audio" | "video";
 export type StreamStatus = "loading" | "rejected" | "success";
