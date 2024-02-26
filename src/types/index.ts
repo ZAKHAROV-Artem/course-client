@@ -1,3 +1,4 @@
+import { MediaConnection } from "peerjs";
 import { Socket as ClientSocket } from "socket.io-client";
 
 export type Code = string;
@@ -14,7 +15,10 @@ export type PeerUser = {
   visible: boolean;
 };
 export type PeerUserWithSocketId = { socketId: string } & PeerUser;
-
+export type PeerConnection = {
+  stream: MediaStream;
+  connection: MediaConnection;
+} & PeerUser;
 export type MediaKind = "audio" | "video";
 export type StreamStatus = "loading" | "rejected" | "success";
 export type JoinStatus =
