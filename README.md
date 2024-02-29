@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Відео чат, використовуючи Next.js Typescript SocketIO WebRTC
 
-## Getting Started
+![](https://raw.githubusercontent.com/ZAKHAROV-Artem/course-client/master/course.png?token=GHSAT0AAAAAACOPBJMBQ5ZJXDKMD7NGBBGSZPAZSHA)
 
-First, run the development server:
+Це репозиторій для "Відео чат, використовуючи Next.js Typescript SocketIO WebRTC" udemy курсу
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Теми:
+
+- 🌐 Розробка відео-чату з використанням NextJS 14 та Typescript.
+- 🤝 Реалізація взаємодії в реальному часі, використовуючи SocketIO.
+- 🔐 Аутентифікація користувачів з AuthJS, використовуючи Google, Github та Credentials providers
+- 🎥 Використання PeerJS для створення WebRTC connection та передачі відео та аудіо між користувачами
+- 💅 Гарний дизайн, використовуючи TailwindCSS. Темна та світла теми.
+- 🧾 Використовувати Prisma with MongoDB
+- 🛠️ Створення сервера, використовуючи Express & Typescript.
+- ➕ Та багато іншого, як middleware, server actions, form validation, hooks ...
+
+### Клонування репозиторію
+
+```shell
+git clone https://github.com/ZAKHAROV-Artem/course-client
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Завантаження бібліотек
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```shell
+npm i
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Налаштування .env.local файлу
 
-## Learn More
+```js
+DATABASE_URL=
+AUTH_SECRET=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+NEXT_PUBLIC_SOCKET_SERVER_URL=
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Налаштування сервера
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Для налаштування сервера перейдіть за посиланням [server](https://github.com/ZAKHAROV-Artem/course-server)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Запуск застосунку
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```shell
+npm run dev
+```
