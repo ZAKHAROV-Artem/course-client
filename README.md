@@ -1,6 +1,6 @@
 # Відео чат, використовуючи Next.js Typescript SocketIO WebRTC
 
-![](https://raw.githubusercontent.com/ZAKHAROV-Artem/course-client/master/course.png?token=GHSAT0AAAAAACOPBJMBQ5ZJXDKMD7NGBBGSZPAZSHA)
+![](https://cdn.sanity.io/images/yluk7vgs/production/8a75bbc132aebe7bcd3132f184cfbc92db2ef9ca-1920x1080.png)
 
 Це репозиторій для "Відео чат, використовуючи Next.js Typescript SocketIO WebRTC" udemy курсу
 
