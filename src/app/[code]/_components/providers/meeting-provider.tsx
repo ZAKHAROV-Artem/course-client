@@ -2,6 +2,7 @@
 
 import { useMeeting } from "@/hooks/state/use-meeting";
 import { usePeer } from "@/hooks/state/use-peer";
+import { useRecentMeetings } from "@/hooks/state/use-recent-meetings";
 import { useSocket } from "@/hooks/state/use-socket";
 import { useStream } from "@/hooks/state/use-stream";
 import { PeerId } from "@/types";
@@ -17,6 +18,7 @@ type Props = {
 export default function MeetingProvider({ children, joinMeeting }: Props) {
   const socket = useSocket();
   const {
+    meeting,
     mutedList,
     visibleList,
     namesList,
@@ -28,6 +30,7 @@ export default function MeetingProvider({ children, joinMeeting }: Props) {
     removeConnection,
   } = useMeeting(
     useShallow((state) => ({
+      meeting: state.meeting,
       mutedList: state.mutedList,
       visibleList: state.visibleList,
       namesList: state.namesList,
@@ -48,12 +51,16 @@ export default function MeetingProvider({ children, joinMeeting }: Props) {
     })),
   );
   const { peer, myPeerId, setMyPeerId, setPeer } = usePeer();
+  const addMeeting = useRecentMeetings((state) => state.addMeeting);
   useEffect(() => {
+    if (!meeting) return;
     socket.connect();
+    addMeeting(meeting);
     return () => {
+      window.location.reload();
       socket.disconnect();
     };
-  }, [socket]);
+  }, [socket, meeting, addMeeting]);
 
   useEffect(() => {
     (async function createPeer() {
