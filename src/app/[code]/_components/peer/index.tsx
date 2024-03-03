@@ -16,7 +16,7 @@ const PeerVideo = ({
           if (node) node.srcObject = stream;
         }}
         autoPlay
-        muted={isMe}
+        muted={true}
         className="aspect-video h-full -scale-x-100 object-contain"
       />
       <audio
